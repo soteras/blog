@@ -4,7 +4,7 @@ config :blog, Blog.Repo,
   username: "blog_user",
   password: "blog_pass",
   database: "blog_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :blog, BlogWeb.Endpoint,

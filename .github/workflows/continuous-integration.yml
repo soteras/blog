@@ -1,0 +1,49 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: elixir:1.11.2
+
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: blog_user
+          POSTGRES_PASSWORD: blog_pass
+          POSTGRES_DB: blog_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install hex
+        run: mix local.hex --force
+
+      - name: Install rebar
+        run: mix local.rebar --force
+
+      - name: Install deps
+        run: mix deps.get
+
+      - name: Format
+        run: mix format --check-formatted
+
+      - name: Run test
+        run: mix test
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: $❴❴ job.services.postgres.ports[5432] ❵❵
