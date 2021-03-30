@@ -24,6 +24,10 @@ defmodule Blog.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Blog.DataCase
+      import Blog.Factory
+
+      def get_error_message(changeset, key), do: elem(changeset.errors[key], 0)
+      def duplicate_string(string, count), do: String.duplicate(string, count)
     end
   end
 
