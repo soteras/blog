@@ -32,4 +32,28 @@ defmodule Blog.Auth.UsersTest do
       refute valid
     end
   end
+
+  describe "verify_user/2" do
+    test "returns user when email and password is valid" do
+      insert(:user, email: "maria@gmail.com", password: "abc12345")
+
+      {:ok, %User{email: email}} = Users.verify_user("maria@gmail.com", "abc12345")
+
+      assert email == "maria@gmail.com"
+    end
+
+    test "returns an error when email not exist" do
+      {:error, error} = Users.verify_user("maria@gmail.com", "abc12345")
+
+      assert error == "email not found"
+    end
+
+    test "returns an error when password is not valid" do
+      insert(:user, email: "maria@gmail.com", password: "abc12345")
+
+      {:error, error} = Users.verify_user("maria@gmail.com", "wrong")
+
+      assert error == "password is not correct"
+    end
+  end
 end
