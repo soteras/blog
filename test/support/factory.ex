@@ -2,6 +2,7 @@ defmodule Blog.Factory do
   use ExMachina.Ecto, repo: Blog.Repo
 
   alias Blog.Auth.User
+  alias Blog.Content.Comment
   alias Blog.Content.Post
 
   def user_factory do
@@ -16,6 +17,13 @@ defmodule Blog.Factory do
     %Post{
       message: "Lorem ipsum",
       user: build(:user)
+    }
+  end
+
+  def comment_factory do
+    %Comment{
+      message: "Lorem ipsum",
+      post: build(:post)
     }
   end
 end

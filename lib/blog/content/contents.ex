@@ -18,6 +18,12 @@ defmodule Blog.Content.Contents do
     insert_comment(post.id, nil, message)
   end
 
+  @spec create_reply(Post.t(), Comment.t(), String.t()) ::
+          {:ok, Post.t()} | {:error, Changeset.t()}
+  def create_reply(post, comment, message) do
+    insert_comment(post.id, comment.id, message)
+  end
+
   defp insert_comment(post_id, comment_id, message) do
     %{}
     |> Map.put(:post_id, post_id)
