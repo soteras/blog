@@ -3,11 +3,14 @@ defmodule Blog.Content.Post do
   import Ecto.Changeset
 
   alias Blog.Auth.User
+  alias Blog.Content.Comment
 
   @create_required_fields [:message, :user_id]
 
   schema "posts" do
     field :message, :string
+
+    has_many :comments, Comment
 
     belongs_to :user, User
 
