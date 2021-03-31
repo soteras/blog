@@ -68,4 +68,36 @@ defmodule Blog.Content.ContentsTest do
       refute valid
     end
   end
+
+  describe "get_all_posts/0" do
+    test "returns all posts" do
+      user = insert(:user)
+      insert(:post, user: user)
+      insert(:post, user: user)
+
+      posts = Contents.get_all_posts()
+
+      assert length(posts) == 2
+    end
+
+    test "returns an empty list when posts not exist" do
+      posts = Contents.get_all_posts()
+
+      assert posts == []
+    end
+  end
+
+  describe "get_post/1" do
+    test "returns post when post exist" do
+      post = insert(:post)
+
+      result = Contents.get_post(post.id)
+
+      assert post.id == result.id
+    end
+
+    test "returns nil when post not exist" do
+      refute Contents.get_post(1)
+    end
+  end
 end

@@ -4,6 +4,16 @@ defmodule Blog.Content.Contents do
   alias Blog.Content.Post
   alias Ecto.Changeset
 
+  @spec get_all_posts :: list(Post.t()) | []
+  def get_all_posts(), do: Repo.all(Post)
+
+  @spec get_post(integer) :: Post.t() | nil
+  def get_post(id) do
+    Post
+    |> Repo.get(id)
+    |> Repo.preload(comments: [replies: :replies])
+  end
+
   @type create_post_attrs :: %{user_id: integer, message: String.t()}
 
   @spec create_post(create_post_attrs) :: {:ok, Post.t()} | {:error, Changeset.t()}
