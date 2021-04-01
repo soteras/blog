@@ -3,6 +3,9 @@ defmodule Blog.Auth.Users do
   alias Blog.Auth.User
   alias Ecto.Changeset
 
+  @spec get_user(integer) :: User.t() | nil
+  def get_user(id), do: Repo.get(User, id)
+
   @type create_params :: %{
           name: String.t(),
           email: String.t(),

@@ -56,4 +56,20 @@ defmodule Blog.Auth.UsersTest do
       assert error == "email or password are not correct"
     end
   end
+
+  describe "get_user/1" do
+    test "returns user when exist" do
+      user = insert(:user)
+
+      result = Users.get_user(user.id)
+
+      assert user.id == result.id
+    end
+
+    test "returns nil when user not exist" do
+      result = Users.get_user(1)
+
+      refute result
+    end
+  end
 end
