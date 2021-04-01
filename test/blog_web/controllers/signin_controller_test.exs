@@ -22,7 +22,11 @@ defmodule BlogWeb.SigninControllerTest do
 
   describe "signin delete" do
     test "removes sessions and redirects to login page ", %{conn: conn} do
-      conn = delete(conn, Routes.signin_path(conn, :delete))
+      conn =
+        insert(:user)
+        |> signin_user(conn)
+        |> delete(Routes.signin_path(conn, :delete))
+
       assert redirected_to(conn) == Routes.signin_path(conn, :new)
       assert get_flash(conn, :info) == "Signed out successfully."
     end

@@ -29,6 +29,8 @@ defmodule BlogWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint BlogWeb.Endpoint
+
+      def signin_user(user, conn), do: init_test_session(conn, current_user: user)
     end
   end
 

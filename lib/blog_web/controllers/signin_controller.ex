@@ -11,7 +11,7 @@ defmodule BlogWeb.SigninController do
     case Users.verify_user(email, password) do
       {:ok, user} ->
         conn
-        |> put_session(:current_user_id, user.id)
+        |> put_session(:current_user, user)
         |> put_flash(:info, "Signed in successfully.")
         |> redirect(to: Routes.home_path(conn, :index))
 
@@ -24,7 +24,7 @@ defmodule BlogWeb.SigninController do
 
   def delete(conn, _params) do
     conn
-    |> delete_session(:current_user_id)
+    |> delete_session(:current_user)
     |> put_flash(:info, "Signed out successfully.")
     |> redirect(to: Routes.signin_path(conn, :new))
   end
