@@ -1,6 +1,8 @@
 defmodule BlogWeb.Router do
   use BlogWeb, :router
 
+  import Blog.Auth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,12 +16,17 @@ defmodule BlogWeb.Router do
   end
 
   scope "/", BlogWeb do
-    pipe_through :browser
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    resources "/signin", SigninController, only: [:new, :create]
+    resources "/users", SignupController, only: [:new, :create]
+  end
+
+  scope "/", BlogWeb do
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/", HomeController, :index
-    resources "/signin", SigninController, only: [:new, :create]
     delete "/signout", SigninController, :delete
-    resources "/users", SignupController, only: [:new, :create]
   end
 
   # if Mix.env() in [:dev, :test] do
