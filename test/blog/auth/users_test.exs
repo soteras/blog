@@ -35,7 +35,7 @@ defmodule Blog.Auth.UsersTest do
 
   describe "verify_user/2" do
     test "returns user when email and password is valid" do
-      insert(:user, email: "maria@gmail.com", password: "abc12345")
+      insert(:user, email: "maria@gmail.com", password: Bcrypt.hash_pwd_salt("abc12345"))
 
       {:ok, %User{email: email}} = Users.verify_user("maria@gmail.com", "abc12345")
 

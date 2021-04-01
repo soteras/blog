@@ -20,12 +20,11 @@ defmodule Blog.Auth.Users do
   @spec verify_user(String.t(), String.t()) :: {:ok, User.t()} | {:error, String.t()}
   def verify_user(email, password) do
     with user = %User{} <- Repo.get_by(User, email: email),
-         hash <- Bcrypt.hash_pwd_salt(password),
-         true <- Bcrypt.verify_pass(user.password, hash) do
+         {:ok, _} <- Bcrypt.check_pass(user, password, hash_key: :password) do
       {:ok, user}
     else
       nil -> {:error, "email or password are not correct"}
-      false -> {:error, "email or password are not correct"}
+      {:error, _} -> {:error, "email or password are not correct"}
     end
   end
 end
