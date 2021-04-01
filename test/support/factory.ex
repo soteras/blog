@@ -9,7 +9,7 @@ defmodule Blog.Factory do
     %User{
       name: "José Antonio",
       email: "jose@gmail.com",
-      password: "abc12345"
+      password: Bcrypt.hash_pwd_salt("abc12345")
     }
   end
 

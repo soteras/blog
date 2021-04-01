@@ -1,0 +1,17 @@
+<h1>Signin</h1>
+
+<p class="alert alert-danger" role="error"><%= get_flash(@conn, :error) %></p>
+
+<%= form_for :signin, Routes.signin_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= label f, :email, class: "control-label" %>
+    <%= email_input f, :email, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :password, class: "control-label" %>
+    <%= password_input f, :password, class: "form-control" %>
+  </div>
+
+  <%= submit "Submit" %>
+<% end %>
