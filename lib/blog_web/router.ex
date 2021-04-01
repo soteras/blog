@@ -16,7 +16,8 @@ defmodule BlogWeb.Router do
   scope "/", BlogWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", HomeController, :index
+    resources "/signin", SigninController, only: [:new, :create]
     resources "/users", SignupController, only: [:new, :create]
   end
 
