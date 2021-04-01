@@ -45,7 +45,7 @@ defmodule Blog.Auth.UsersTest do
     test "returns an error when email not exist" do
       {:error, error} = Users.verify_user("maria@gmail.com", "abc12345")
 
-      assert error == "email not found"
+      assert error == "email or password are not correct"
     end
 
     test "returns an error when password is not valid" do
@@ -53,7 +53,7 @@ defmodule Blog.Auth.UsersTest do
 
       {:error, error} = Users.verify_user("maria@gmail.com", "wrong")
 
-      assert error == "password is not correct"
+      assert error == "email or password are not correct"
     end
   end
 end

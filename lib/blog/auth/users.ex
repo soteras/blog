@@ -24,8 +24,8 @@ defmodule Blog.Auth.Users do
          true <- Bcrypt.verify_pass(user.password, hash) do
       {:ok, user}
     else
-      nil -> {:error, "email not found"}
-      false -> {:error, "password is not correct"}
+      nil -> {:error, "email or password are not correct"}
+      false -> {:error, "email or password are not correct"}
     end
   end
 end
