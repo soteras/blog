@@ -28,7 +28,12 @@ defmodule Blog.Content.Contents do
     |> Repo.insert()
   end
 
-  @type create_comment_attrs :: %{post_id: integer, comment_id: integer, message: String.t()}
+  @type create_comment_attrs :: %{
+          post_id: integer,
+          comment_id: integer,
+          user_id: integer,
+          message: String.t()
+        }
 
   @spec create_comment(create_comment_attrs) :: {:ok, Comment.t()} | {:error, Changeset.t()}
   def create_comment(attrs) do

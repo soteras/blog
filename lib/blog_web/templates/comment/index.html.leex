@@ -1,11 +1,12 @@
 <ul>
-	<button><%= @comment.message %></button>
+	<button disabled="<%= @belongs_to_user %>"><%= @comment.message %></button>
 	<button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
+
   <%= if @show_form do %>
-	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment %>
+	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user_id: @user_id %>
   <% end %>
 
 	<%= for reply <- @comment.replies do %>
-		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id %>
+		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id, user_id: @user_id %>
 	<% end %>
 </ul>

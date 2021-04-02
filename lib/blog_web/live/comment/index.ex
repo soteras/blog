@@ -5,13 +5,15 @@ defmodule BlogWeb.CommentLive.Index do
 
   def render(assigns), do: BlogWeb.CommentView.render("index.html", assigns)
 
-  def update(%{comment: comment}, socket) do
-    comment = Repo.preload(comment, replies: :replies)
+  def update(%{comment: comment, user_id: user_id}, socket) do
+    comment = Repo.preload(comment, [:post, replies: :replies])
 
     socket =
       socket
       |> assign(comment: comment)
       |> assign(show_form: false)
+      |> assign(belongs_to_user: comment.post.user_id == user_id)
+      |> assign(user_id: user_id)
 
     {:ok, socket}
   end

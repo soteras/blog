@@ -25,6 +25,7 @@ defmodule Blog.Content.Comment do
     |> cast(attrs, @create_required_fields ++ [:comment_id])
     |> validate_required(@create_required_fields)
     |> assoc_constraint(:post)
+    |> assoc_constraint(:user)
     |> changeset
   end
 

@@ -8,13 +8,14 @@ defmodule BlogWeb.CommentLive.New do
 
   def render(assigns), do: BlogWeb.CommentView.render("form.html", assigns)
 
-  def update(%{comment: comment}, socket) do
+  def update(%{comment: comment, user_id: user_id}, socket) do
     changeset = Comment.create_changeset(%{})
 
     socket =
       socket
       |> assign(comment: comment)
       |> assign(changeset: changeset)
+      |> assign(user_id: user_id)
 
     {:ok, socket}
   end
@@ -34,11 +35,13 @@ defmodule BlogWeb.CommentLive.New do
 
   def handle_event("save", %{"comment" => %{"message" => message}}, socket) do
     comment = socket.assigns.comment
+    user_id = socket.assigns.user_id
 
     attrs = %{
       message: message,
       comment_id: comment.id,
-      post_id: comment.post_id
+      post_id: comment.post_id,
+      user_id: user_id
     }
 
     case Contents.create_comment(attrs) do
