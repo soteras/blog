@@ -25,5 +25,6 @@
     <%= error_tag f, :password_confirmation %>
   </div>
 
-  <%= submit "Submit" %>
+  <%= submit "Register" %>
+  <%= button("Signin", to: "/signin/new", method: :get) %>
 <% end %>

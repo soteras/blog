@@ -10,6 +10,9 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
+    <%= if Map.has_key?(assigns, :user) do %>
+      <%= button("Logout", to: "/signout", method: :delete) %>
+    <% end %>
     <%= @inner_content %>
   </body>
 </html>
