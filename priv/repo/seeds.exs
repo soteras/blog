@@ -25,7 +25,7 @@ alias Blog.Content.Contents
 {:ok, comment3} = Contents.create_comment(%{post_id: post2.id, message: "Noooo!!!"})
 
 {:ok, _} =
-  Contents.create_comment(%{post_id: post1.id, message_id: comment1.id, message: "hahahah"})
+  Contents.create_comment(%{post_id: post1.id, comment_id: comment1.id, message: "hahahah"})
 
 {:ok, reply2} =
   Contents.create_comment(%{
@@ -35,7 +35,7 @@ alias Blog.Content.Contents
   })
 
 {:ok, _} =
-  Contents.create_comment(%{post_id: post1.id, message_id: comment1.id, message: "Thanks you"})
+  Contents.create_comment(%{post_id: post1.id, comment_id: comment1.id, message: "Thanks you"})
 
 {:ok, _} =
-  Contents.create_comment(%{post_id: post2.id, message_id: reply2.id, message: "Finished"})
+  Contents.create_comment(%{post_id: post2.id, comment_id: reply2.id, message: "Finished"})
