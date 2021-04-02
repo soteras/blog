@@ -27,6 +27,8 @@ defmodule BlogWeb.Router do
 
     get "/", HomeController, :index
     delete "/signout", SigninController, :delete
+    resources "/posts", PostController, only: [:index, :show]
+    resources "/comments", CommentController, only: [:create]
   end
 
   # if Mix.env() in [:dev, :test] do

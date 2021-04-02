@@ -1,0 +1,18 @@
+<h1><%= @post.message %></h1>
+
+<p class="alert alert-danger" role="error"><%= get_flash(@conn, :error) %></p>
+
+<%= form_for :comment, Routes.comment_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= label f, :message, class: "control-label" %>
+    <%= text_input f, :message, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= hidden_input f, :post_id, value: 1 %>
+  </div>
+
+  <%= submit "Submit" %>
+<% end %>
+
+<%= build_messages(@post.comments) %>
