@@ -5,7 +5,7 @@ defmodule Blog.Content.Queries do
   alias Blog.Content.Post
 
   def get_post(id) do
-    comments_query = from c in Comment, where: is_nil(c.comment_id)
+    comments_query = from c in Comment, where: c.reply == false
 
     from p in Post,
       where: p.id == ^id,
