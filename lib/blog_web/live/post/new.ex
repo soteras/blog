@@ -7,9 +7,7 @@ defmodule BlogWeb.PostLive.New do
   alias BlogWeb.PostLive.Index
   alias BlogWeb.Router.Helpers, as: Routes
 
-  def render(assigns) do
-    PostView.render("form.html", assigns)
-  end
+  def render(assigns), do: PostView.render("form.html", assigns)
 
   def update(assigns, socket) do
     changeset = Post.create_changeset(%{})

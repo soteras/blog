@@ -29,6 +29,7 @@ defmodule BlogWeb.Router do
     get "/", HomeController, :index
     delete "/signout", SigninController, :delete
     live "/posts", PostLive.Index
+    live "/posts/:id", PostLive.Show
   end
 
   # if Mix.env() in [:dev, :test] do

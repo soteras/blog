@@ -1,0 +1,5 @@
+<h2><%= @post.message %></h2>
+
+<%= for comment <- @post.comments do %>
+  <%= live_component @socket, BlogWeb.CommentLive.Index, comment: comment, id: comment.id %>
+<% end %>

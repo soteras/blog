@@ -18,7 +18,7 @@
         <td><%= post.message %></td>
 
         <td>
-          <%= link "See Comments", to: Routes.live_path(@socket, BlogWeb.PostLive.New) %>
+          <%= link "See Comments", to: Routes.live_path(@socket, BlogWeb.PostLive.Show, post.id) %>
         </td>
       </tr>
     <% end %>
