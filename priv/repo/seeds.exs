@@ -23,15 +23,26 @@ alias Blog.Content.Contents
 {:ok, comment1} = Contents.create_comment(%{post_id: post1.id, message: "Very Nice"})
 {:ok, _} = Contents.create_comment(%{post_id: post1.id, message: "It's ok"})
 {:ok, comment3} = Contents.create_comment(%{post_id: post2.id, message: "Noooo!!!"})
+{:ok, comment4} = Contents.create_comment(%{post_id: post2.id, message: "I love StarWars"})
 
 {:ok, _} =
   Contents.create_comment(%{post_id: post1.id, comment_id: comment1.id, message: "hahahah"})
 
+{:ok, _} =
+  Contents.create_comment(%{post_id: post2.id, comment_id: comment4.id, message: "I too"})
+
 {:ok, reply2} =
   Contents.create_comment(%{
     post_id: post2.id,
-    message_id: comment3.id,
+    comment_id: comment3.id,
     message: "No, I don't understand"
+  })
+
+{:ok, _} =
+  Contents.create_comment(%{
+    post_id: post2.id,
+    comment_id: comment3.id,
+    message: "I don't agree"
   })
 
 {:ok, _} =
