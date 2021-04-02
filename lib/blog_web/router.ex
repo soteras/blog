@@ -26,10 +26,9 @@ defmodule BlogWeb.Router do
   scope "/", BlogWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/", HomeController, :index
-    delete "/signout", SigninController, :delete
-    live "/posts", PostLive.Index
+    live "/", PostLive.Index
     live "/posts/:id", PostLive.Show
+    delete "/signout", SigninController, :delete
   end
 
   # if Mix.env() in [:dev, :test] do

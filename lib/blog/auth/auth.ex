@@ -7,7 +7,7 @@ defmodule Blog.Auth do
   def redirect_if_user_is_authenticated(conn, _opts) do
     if get_session(conn, :current_user) do
       conn
-      |> redirect(to: Routes.home_path(conn, :index))
+      |> redirect(to: "/")
       |> halt()
     else
       conn

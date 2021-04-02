@@ -14,7 +14,7 @@ defmodule BlogWeb.SignupController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.home_path(conn, :index))
+        |> redirect(to: "/")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
