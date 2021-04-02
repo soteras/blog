@@ -40,6 +40,10 @@ defmodule BlogWeb do
 
       import Phoenix.LiveView.Helpers
 
+      def current_user(conn) do
+        Plug.Conn.get_session(conn, :current_user)
+      end
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
     end
