@@ -1,0 +1,26 @@
+<%= live_component @socket, BlogWeb.PostLive.New, id: :create_post, user_id: @user_id %>
+
+<h2>Posts</h2>
+
+<table phx-keydown-window="keydown" phx-throttle="500">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Message</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <%= for post <- @posts do %>
+      <tr>
+        <td><%= post.user.name %></td>
+        <td><%= post.message %></td>
+
+        <td>
+          <%= link "See Comments", to: Routes.live_path(@socket, BlogWeb.PostLive.New) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

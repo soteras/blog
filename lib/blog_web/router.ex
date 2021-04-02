@@ -9,6 +9,7 @@ defmodule BlogWeb.Router do
     plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {BlogWeb.LayoutView, :root}
   end
 
   pipeline :api do
@@ -27,8 +28,7 @@ defmodule BlogWeb.Router do
 
     get "/", HomeController, :index
     delete "/signout", SigninController, :delete
-    resources "/posts", PostController, only: [:index, :show]
-    resources "/comments", CommentController, only: [:create]
+    live "/posts", PostLive.Index
   end
 
   # if Mix.env() in [:dev, :test] do
