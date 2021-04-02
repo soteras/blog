@@ -1,8 +1,0 @@
-<h1>Posts</h1>
-
-<%= for post <- @posts do %>
-  <ul>
-    <li><%= post.user.name %></li>
-    <li><%= post.message %></li>
-  </ul>
-<% end %>
