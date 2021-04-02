@@ -34,12 +34,13 @@ defmodule Blog.Content.ContentsTest do
         message: "Lorem ipsum"
       }
 
-      {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id}} =
+      {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id, reply: reply}} =
         Contents.create_comment(attrs)
 
       assert message == "Lorem ipsum"
       assert post_id == post.id
       refute comment_id
+      refute reply
     end
 
     test "with invalid attrs not creates a new comment" do
@@ -65,12 +66,13 @@ defmodule Blog.Content.ContentsTest do
         message: "Lorem ipsum"
       }
 
-      {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id}} =
+      {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id, reply: reply}} =
         Contents.create_comment(attrs)
 
       assert message == "Lorem ipsum"
       assert post_id == post.id
       assert comment_id == comment.id
+      assert reply
     end
   end
 
