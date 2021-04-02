@@ -20,11 +20,33 @@ alias Blog.Content.Contents
 {:ok, post1} = Contents.create_post(%{message: "Post 1", user_id: user1.id})
 {:ok, post2} = Contents.create_post(%{message: "Post 2", user_id: user2.id})
 
-{:ok, comment1} = Contents.create_comment(post1, "Very Nice")
-{:ok, _} = Contents.create_comment(post1, "It's ok")
-{:ok, comment3} = Contents.create_comment(post2, "Noooo!!!")
+{:ok, comment1} = Contents.create_comment(%{post_id: post1.id, message: "Very Nice"})
+{:ok, _} = Contents.create_comment(%{post_id: post1.id, message: "It's ok"})
+{:ok, comment3} = Contents.create_comment(%{post_id: post2.id, message: "Noooo!!!"})
+{:ok, comment4} = Contents.create_comment(%{post_id: post2.id, message: "I love StarWars"})
 
-{:ok, _} = Contents.create_reply(post1, comment1, "hahahah")
-{:ok, reply2} = Contents.create_reply(post1, comment3, "No, I don't understand")
-{:ok, _} = Contents.create_reply(post1, comment1, "Thanks you")
-{:ok, _} = Contents.create_reply(post1, reply2, "Finished")
+{:ok, _} =
+  Contents.create_comment(%{post_id: post1.id, comment_id: comment1.id, message: "hahahah"})
+
+{:ok, _} =
+  Contents.create_comment(%{post_id: post2.id, comment_id: comment4.id, message: "I too"})
+
+{:ok, reply2} =
+  Contents.create_comment(%{
+    post_id: post2.id,
+    comment_id: comment3.id,
+    message: "No, I don't understand"
+  })
+
+{:ok, _} =
+  Contents.create_comment(%{
+    post_id: post2.id,
+    comment_id: comment3.id,
+    message: "I don't agree"
+  })
+
+{:ok, _} =
+  Contents.create_comment(%{post_id: post1.id, comment_id: comment1.id, message: "Thanks you"})
+
+{:ok, _} =
+  Contents.create_comment(%{post_id: post2.id, comment_id: reply2.id, message: "Finished"})

@@ -11,10 +11,11 @@ defmodule BlogWeb.SignupController do
 
   def create(conn, %{"user" => user_params}) do
     case Users.create(user_params) do
-      {:ok, _} ->
+      {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.home_path(conn, :index))
+        |> put_session(:current_user, user)
+        |> redirect(to: "/")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

@@ -9,6 +9,7 @@ defmodule Blog.Content.Comment do
 
   schema "comments" do
     field :message, :string
+    field :reply, :boolean, default: false
 
     belongs_to :post, Post
     belongs_to :parent, Comment, foreign_key: :comment_id
@@ -29,5 +30,16 @@ defmodule Blog.Content.Comment do
   defp changeset(changeset) do
     changeset
     |> validate_length(:message, max: 280)
+    |> put_reply_flag()
+  end
+
+  defp put_reply_flag(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{comment_id: _}} ->
+        put_change(changeset, :reply, true)
+
+      _ ->
+        changeset
+    end
   end
 end

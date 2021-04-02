@@ -13,7 +13,7 @@ defmodule BlogWeb.SigninController do
         conn
         |> put_session(:current_user, user)
         |> put_flash(:info, "Signed in successfully.")
-        |> redirect(to: Routes.home_path(conn, :index))
+        |> redirect(to: "/")
 
       {:error, error} ->
         conn

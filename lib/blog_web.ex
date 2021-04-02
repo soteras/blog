@@ -23,6 +23,7 @@ defmodule BlogWeb do
 
       import Plug.Conn
       import BlogWeb.Gettext
+      import Phoenix.LiveView.Controller
       alias BlogWeb.Router.Helpers, as: Routes
     end
   end
@@ -37,6 +38,12 @@ defmodule BlogWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
+      import Phoenix.LiveView.Helpers
+
+      def current_user(conn) do
+        Plug.Conn.get_session(conn, :current_user)
+      end
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
     end
@@ -48,6 +55,7 @@ defmodule BlogWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

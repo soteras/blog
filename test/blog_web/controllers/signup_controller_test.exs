@@ -17,7 +17,7 @@ defmodule BlogWeb.SignupControllerTest do
 
     test "creates a new user when attrs are valid", %{conn: conn} do
       conn = post(conn, Routes.signup_path(conn, :create), user: @valid_attrs)
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == "/"
     end
 
     test "not creates a new user when atrrs are invalid ", %{conn: conn} do

@@ -7,7 +7,7 @@ defmodule BlogWeb.SigninControllerTest do
       attrs = %{email: "jose@gmail.com", password: "abc12345"}
 
       conn = post(conn, Routes.signin_path(conn, :create), signin: attrs)
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == "/"
     end
 
     test "returns an erro when login was unsuccess ", %{conn: conn} do

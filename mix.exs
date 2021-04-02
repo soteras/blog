@@ -46,7 +46,8 @@ defmodule Blog.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.3"},
-      {:ex_machina, "~> 2.7"}
+      {:ex_machina, "~> 2.7"},
+      {:phoenix_live_view, "~> 0.15.4"}
     ]
   end
 

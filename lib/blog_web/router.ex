@@ -6,9 +6,10 @@ defmodule BlogWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {BlogWeb.LayoutView, :root}
   end
 
   pipeline :api do
@@ -25,7 +26,8 @@ defmodule BlogWeb.Router do
   scope "/", BlogWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/", HomeController, :index
+    live "/", PostLive.Index
+    live "/posts/:id", PostLive.Show
     delete "/signout", SigninController, :delete
   end
 
