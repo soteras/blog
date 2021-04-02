@@ -33,7 +33,7 @@ defmodule BlogWeb.CommentLive.New do
   end
 
   def handle_event("save", %{"comment" => %{"message" => message}}, socket) do
-   comment = socket.assigns.comment
+    comment = socket.assigns.comment
 
     attrs = %{
       message: message,
