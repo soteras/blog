@@ -12,7 +12,7 @@ defmodule BlogWeb.CommentLive.Index do
       socket
       |> assign(comment: comment)
       |> assign(show_form: false)
-      |> assign(belongs_to_user: comment.post.user_id == user_id)
+      |> assign(belongs_to_user: comment.user_id == user_id)
       |> assign(user_id: user_id)
 
     {:ok, socket}

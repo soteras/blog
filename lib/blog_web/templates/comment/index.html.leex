@@ -1,5 +1,10 @@
 <ul>
-	<button disabled="<%= @belongs_to_user %>"><%= @comment.message %></button>
+	<%= if @belongs_to_user do %>
+		<button><%= @comment.message %></button>
+	<% else %>
+		<button disabled><%= @comment.message %></button>
+	<% end %>
+
 	<button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
 
   <%= if @show_form do %>
