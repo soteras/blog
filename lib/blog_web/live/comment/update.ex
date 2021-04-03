@@ -15,7 +15,7 @@ defmodule BlogWeb.CommentLive.Update do
       socket
       |> assign(comment: comment)
       |> assign(changeset: changeset)
-      |> assign(user_id: user.id)
+      |> assign(user: user)
 
     {:ok, socket}
   end
