@@ -8,7 +8,7 @@ defmodule BlogWeb.CommentLive.Index do
 
   def render(assigns), do: BlogWeb.CommentView.render("index.html", assigns)
 
-  def update(%{comment: comment, user: user}, socket) do
+  def update(%{comment: comment, user: user, post: post}, socket) do
     comment = Repo.preload(comment, [:user, replies: :replies])
 
     like_exists? = Contents.like_exists?(comment, user)
@@ -20,6 +20,7 @@ defmodule BlogWeb.CommentLive.Index do
       |> assign(show_update_form: false)
       |> assign(belongs_to_user: comment.user_id == user.id)
       |> assign(user: user)
+      |> assign(post: post)
       |> assign(liked: like_exists?)
 
     {:ok, socket}
@@ -27,12 +28,12 @@ defmodule BlogWeb.CommentLive.Index do
 
   def handle_event("add_reply", _, socket) do
     show_create_form = Map.get(socket.assigns, :show_create_form)
-    {:noreply, assign(socket, show_create_form: !show_create_form)}
+    {:noreply, assign(socket, show_create_form: !show_create_form, show_update_form: false)}
   end
 
   def handle_event("update_comment", _, socket) do
     show_update_form = Map.get(socket.assigns, :show_update_form)
-    {:noreply, assign(socket, show_update_form: !show_update_form)}
+    {:noreply, assign(socket, show_update_form: !show_update_form, show_create_form: false)}
   end
 
   def handle_event("add_like", _, socket) do

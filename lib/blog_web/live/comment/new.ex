@@ -8,14 +8,16 @@ defmodule BlogWeb.CommentLive.New do
 
   def render(assigns), do: BlogWeb.CommentView.render("form.html", assigns)
 
-  def update(%{comment: comment, user: user}, socket) do
+  def update(%{user: user, post: post} = params, socket) do
     changeset = Comment.create_changeset(%{})
+    comment = Map.get(params, :comment, nil)
 
     socket =
       socket
       |> assign(comment: comment)
       |> assign(changeset: changeset)
       |> assign(user: user)
+      |> assign(post: post)
 
     {:ok, socket}
   end
@@ -34,14 +36,15 @@ defmodule BlogWeb.CommentLive.New do
   end
 
   def handle_event("save", %{"comment" => %{"message" => message}}, socket) do
-    comment = socket.assigns.comment
-    user_id = socket.assigns.user.id
+    comment = Map.get(socket.assigns, :comment) || %{}
+    user = socket.assigns.user
+    post = socket.assigns.post
 
     attrs = %{
       message: message,
-      comment_id: comment.id,
-      post_id: comment.post_id,
-      user_id: user_id
+      comment_id: Map.get(comment, :id, nil),
+      post_id: post.id,
+      user_id: user.id
     }
 
     case Contents.create_comment(attrs) do
@@ -49,7 +52,7 @@ defmodule BlogWeb.CommentLive.New do
         socket =
           socket
           |> put_flash(:info, "comment created")
-          |> redirect(to: Routes.live_path(socket, Show, comment.post_id))
+          |> redirect(to: Routes.live_path(socket, Show, comment.post))
 
         {:noreply, socket}
 
