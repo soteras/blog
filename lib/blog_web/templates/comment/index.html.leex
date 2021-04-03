@@ -7,8 +7,15 @@
 		<button disabled><%= @comment.message %></button>
 	<% end %>
 
-	<button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
-  <button phx-click="add_like" phx-target="<%= @myself %>">Like</button>
+  <button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
+
+  <%= unless @belongs_to_user do %>
+    <%= if @liked do %>
+      <button phx-click="remove_like" phx-target="<%= @myself %>">Dislike</button>
+    <% else %>
+      <button phx-click="add_like" phx-target="<%= @myself %>">Like</button>
+    <% end %>
+  <% end %>
 
   <%= if @show_create_form do %>
     <h2>Create Comment</h2>
