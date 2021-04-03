@@ -1,4 +1,4 @@
-defmodule BlogWeb.CommentLive.New do
+defmodule BlogWeb.CommentLive.Update do
   use Phoenix.LiveComponent
 
   alias BlogWeb.PostLive.Show
@@ -9,7 +9,7 @@ defmodule BlogWeb.CommentLive.New do
   def render(assigns), do: BlogWeb.CommentView.render("form.html", assigns)
 
   def update(%{comment: comment, user_id: user_id}, socket) do
-    changeset = Comment.create_changeset(%{})
+    changeset = Comment.create_changeset(%{message: comment.message})
 
     socket =
       socket
@@ -37,21 +37,17 @@ defmodule BlogWeb.CommentLive.New do
     comment = socket.assigns.comment
     user_id = socket.assigns.user_id
 
-    attrs = %{
-      message: message,
-      comment_id: comment.id,
-      post_id: comment.post_id,
-      user_id: user_id
-    }
+    with true <- comment.user_id == user_id,
+         {:ok, _} <- Contents.update_comment(comment, message) do
+      socket =
+        socket
+        |> put_flash(:info, "comment created")
+        |> redirect(to: Routes.live_path(socket, Show, comment.post_id))
 
-    case Contents.create_comment(attrs) do
-      {:ok, _} ->
-        socket =
-          socket
-          |> put_flash(:info, "comment created")
-          |> redirect(to: Routes.live_path(socket, Show, comment.post_id))
-
-        {:noreply, socket}
+      {:noreply, socket}
+    else
+      false ->
+        {:noreply, put_flash(socket, :error, "comment not belongs to user")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

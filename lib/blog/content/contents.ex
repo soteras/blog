@@ -28,12 +28,24 @@ defmodule Blog.Content.Contents do
     |> Repo.insert()
   end
 
-  @type create_comment_attrs :: %{post_id: integer, comment_id: integer, message: String.t()}
+  @type create_comment_attrs :: %{
+          post_id: integer,
+          comment_id: integer,
+          user_id: integer,
+          message: String.t()
+        }
 
   @spec create_comment(create_comment_attrs) :: {:ok, Comment.t()} | {:error, Changeset.t()}
   def create_comment(attrs) do
     attrs
     |> Comment.create_changeset()
     |> Repo.insert()
+  end
+
+  @spec update_comment(Comment.t(), String.t()) :: {:ok, Comment.t()} | {:error, Changeset.t()}
+  def update_comment(comment, message) do
+    comment
+    |> Comment.update_changeset(Map.put(%{}, :message, message))
+    |> Repo.update()
   end
 end

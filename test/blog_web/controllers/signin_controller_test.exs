@@ -3,10 +3,11 @@ defmodule BlogWeb.SigninControllerTest do
 
   describe "signin create" do
     test "redirects to home when login was success ", %{conn: conn} do
-      insert(:user)
+      insert(:user, email: "jose@gmail.com")
       attrs = %{email: "jose@gmail.com", password: "abc12345"}
 
       conn = post(conn, Routes.signin_path(conn, :create), signin: attrs)
+
       assert redirected_to(conn) == "/"
     end
 

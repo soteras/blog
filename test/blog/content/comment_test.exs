@@ -6,7 +6,8 @@ defmodule Blog.Content.CommentTest do
   describe "create_changeset/1" do
     test "with valid attrs creates a new comment" do
       post = insert(:post)
-      attrs = %{message: "Lorem ipsum", post_id: post.id}
+      user = insert(:user)
+      attrs = %{message: "Lorem ipsum", post_id: post.id, user_id: user.id}
 
       %Ecto.Changeset{
         valid?: valid,

@@ -28,10 +28,12 @@ defmodule Blog.Content.ContentsTest do
   describe "create_comment/2" do
     test "with valid attrs creates a new comment" do
       post = insert(:post)
+      user = insert(:user)
 
       attrs = %{
         post_id: post.id,
-        message: "Lorem ipsum"
+        message: "Lorem ipsum",
+        user_id: user.id
       }
 
       {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id, reply: reply}} =
@@ -59,11 +61,13 @@ defmodule Blog.Content.ContentsTest do
     test "with valid attrs creates a new reply" do
       post = insert(:post)
       comment = insert(:comment, post: post)
+      user = insert(:user)
 
       attrs = %{
         post_id: post.id,
         comment_id: comment.id,
-        message: "Lorem ipsum"
+        message: "Lorem ipsum",
+        user_id: user.id
       }
 
       {:ok, %Comment{message: message, post_id: post_id, comment_id: comment_id, reply: reply}} =
@@ -105,6 +109,24 @@ defmodule Blog.Content.ContentsTest do
 
     test "returns nil when post not exist" do
       refute Contents.get_post(1)
+    end
+  end
+
+  describe "update_comment/2" do
+    test "with valid attrs update comment" do
+      comment = insert(:comment, message: "Test 123")
+
+      {:ok, %Comment{message: message}} = Contents.update_comment(comment, "New message")
+
+      assert message == "New message"
+    end
+
+    test "with invalid attrs not update comment" do
+      comment = insert(:comment, message: "Test 123")
+
+      {:error, %Ecto.Changeset{valid?: valid}} = Contents.update_comment(comment, %{message: ""})
+
+      refute valid
     end
   end
 end
