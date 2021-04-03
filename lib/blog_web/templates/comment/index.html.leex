@@ -2,15 +2,21 @@
 	<button disabled><%= @comment.user.name %></button>
 
 	<%= if @belongs_to_user do %>
-		<button><%= @comment.message %></button>
+		<button phx-click="update_comment" phx-target="<%= @myself %>"><%= @comment.message %></button>
 	<% else %>
 		<button disabled><%= @comment.message %></button>
 	<% end %>
 
 	<button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
 
-  <%= if @show_form do %>
+  <%= if @show_create_form do %>
+    <h2>Create Comment</h2>
 	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user_id: @user_id %>
+  <% end %>
+
+  <%= if @show_update_form do %>
+    <h2>Update Comment</h2>
+	  <%= live_component @socket, BlogWeb.CommentLive.Update, comment: @comment, id: :update_comment, user_id: @user_id %>
   <% end %>
 
 	<%= for reply <- @comment.replies do %>
