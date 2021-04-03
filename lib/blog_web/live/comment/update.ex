@@ -8,14 +8,14 @@ defmodule BlogWeb.CommentLive.Update do
 
   def render(assigns), do: BlogWeb.CommentView.render("form.html", assigns)
 
-  def update(%{comment: comment, user_id: user_id}, socket) do
+  def update(%{comment: comment, user: user}, socket) do
     changeset = Comment.create_changeset(%{message: comment.message})
 
     socket =
       socket
       |> assign(comment: comment)
       |> assign(changeset: changeset)
-      |> assign(user_id: user_id)
+      |> assign(user: user)
 
     {:ok, socket}
   end
@@ -35,7 +35,7 @@ defmodule BlogWeb.CommentLive.Update do
 
   def handle_event("save", %{"comment" => %{"message" => message}}, socket) do
     comment = socket.assigns.comment
-    user_id = socket.assigns.user_id
+    user_id = socket.assigns.user.id
 
     with true <- comment.user_id == user_id,
          {:ok, _} <- Contents.update_comment(comment, message) do

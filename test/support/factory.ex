@@ -4,6 +4,7 @@ defmodule Blog.Factory do
   alias Blog.Auth.User
   alias Blog.Content.Comment
   alias Blog.Content.Post
+  alias Blog.Content.Like
 
   def user_factory do
     email = for _ <- 1..10, into: "", do: <<Enum.random('0123456789abcdef')>>
@@ -27,6 +28,13 @@ defmodule Blog.Factory do
       message: "Lorem ipsum",
       post: build(:post),
       user: build(:user)
+    }
+  end
+
+  def like_factory do
+    %Like{
+      user: build(:user),
+      comment: build(:comment)
     }
   end
 end

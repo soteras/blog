@@ -3,6 +3,7 @@ defmodule Blog.Content.Contents do
   alias Blog.Content.Comment
   alias Blog.Content.Post
   alias Blog.Content.Queries
+  alias Blog.Content.Like
   alias Ecto.Changeset
 
   @spec get_all_posts :: list(Post.t()) | []
@@ -47,5 +48,34 @@ defmodule Blog.Content.Contents do
     comment
     |> Comment.update_changeset(Map.put(%{}, :message, message))
     |> Repo.update()
+  end
+
+  @spec like_exists?(Comment.t(), User.t()) :: boolean
+  def like_exists?(comment, user) do
+    Queries.exists_query(comment.id, user.id)
+    |> Repo.exists?()
+  end
+
+  @spec add_like(Comment.t(), User.t()) :: {:ok, Like.t()} | {:error, Changeset.t()}
+  def add_like(comment, user) do
+    %{}
+    |> Map.put(:comment_id, comment.id)
+    |> Map.put(:user_id, user.id)
+    |> Like.changeset()
+    |> Repo.insert()
+  end
+
+  @spec remove_like(Comment.t(), User.t()) :: {:ok, Like.t()} | {:error, Changeset.t()}
+  def remove_like(comment, user) do
+    with like = %Like{} <- Repo.get_by(Like, comment_id: comment.id, user_id: user.id),
+         {:ok, _} <- Repo.delete(like) do
+      {:ok, like}
+    else
+      nil ->
+        {:error, :like_not_found}
+
+      {:error, error} ->
+        {:error, error}
+    end
   end
 end

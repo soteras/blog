@@ -1,5 +1,5 @@
 <h2><%= @post.message %></h2>
 
 <%= for comment <- @post.comments do %>
-  <%= live_component @socket, BlogWeb.CommentLive.Index, comment: comment, id: comment.id, user_id: @user_id %>
+  <%= live_component @socket, BlogWeb.CommentLive.Index, comment: comment, id: comment.id, user: @user %>
 <% end %>

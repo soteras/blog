@@ -10,7 +10,7 @@ defmodule BlogWeb.PostLive.Index do
     socket =
       socket
       |> fetch_posts()
-      |> assign(user_id: user.id)
+      |> assign(user: user.id)
 
     {:ok, socket}
   end

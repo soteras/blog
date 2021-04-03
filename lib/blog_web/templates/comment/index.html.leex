@@ -7,19 +7,27 @@
 		<button disabled><%= @comment.message %></button>
 	<% end %>
 
-	<button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
+  <button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
+
+  <%= unless @belongs_to_user do %>
+    <%= if @liked do %>
+      <button phx-click="remove_like" phx-target="<%= @myself %>">Dislike</button>
+    <% else %>
+      <button phx-click="add_like" phx-target="<%= @myself %>">Like</button>
+    <% end %>
+  <% end %>
 
   <%= if @show_create_form do %>
     <h2>Create Comment</h2>
-	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user_id: @user_id %>
+	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user: @user %>
   <% end %>
 
   <%= if @show_update_form do %>
     <h2>Update Comment</h2>
-	  <%= live_component @socket, BlogWeb.CommentLive.Update, comment: @comment, id: :update_comment, user_id: @user_id %>
+	  <%= live_component @socket, BlogWeb.CommentLive.Update, comment: @comment, id: :update_comment, user: @user %>
   <% end %>
 
 	<%= for reply <- @comment.replies do %>
-		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id, user_id: @user_id %>
+		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id, user: @user %>
 	<% end %>
 </ul>
