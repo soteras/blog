@@ -19,7 +19,7 @@
 
   <%= if @show_create_form do %>
     <h2>Create Comment</h2>
-	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user: @user %>
+	  <%= live_component @socket, BlogWeb.CommentLive.New, comment: @comment, id: :create_comment, user: @user, post: @post %>
   <% end %>
 
   <%= if @show_update_form do %>
@@ -28,6 +28,6 @@
   <% end %>
 
 	<%= for reply <- @comment.replies do %>
-		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id, user: @user %>
+		<%= live_component @socket, BlogWeb.CommentLive.Index, comment: reply, id: reply.id, user: @user, post: @post %>
 	<% end %>
 </ul>
