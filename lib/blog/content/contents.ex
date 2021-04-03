@@ -41,4 +41,11 @@ defmodule Blog.Content.Contents do
     |> Comment.create_changeset()
     |> Repo.insert()
   end
+
+  @spec update_comment(Comment.t(), String.t()) :: {:ok, Comment.t()} | {:error, Changeset.t()}
+  def update_comment(comment, message) do
+    comment
+    |> Comment.update_changeset(Map.put(%{}, :message, message))
+    |> Repo.update()
+  end
 end

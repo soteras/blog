@@ -6,9 +6,11 @@ defmodule Blog.Factory do
   alias Blog.Content.Post
 
   def user_factory do
+    email = for _ <- 1..10, into: "", do: <<Enum.random('0123456789abcdef')>>
+
     %User{
       name: "José Antonio",
-      email: "jose@gmail.com",
+      email: email <> "gmail.com",
       password: Bcrypt.hash_pwd_salt("abc12345")
     }
   end
@@ -23,7 +25,8 @@ defmodule Blog.Factory do
   def comment_factory do
     %Comment{
       message: "Lorem ipsum",
-      post: build(:post)
+      post: build(:post),
+      user: build(:user)
     }
   end
 end

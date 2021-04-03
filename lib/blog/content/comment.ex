@@ -20,6 +20,13 @@ defmodule Blog.Content.Comment do
     timestamps()
   end
 
+  def update_changeset(comment, attrs) do
+    comment
+    |> cast(attrs, [:message])
+    |> validate_required([:message])
+    |> changeset
+  end
+
   def create_changeset(attrs) do
     %__MODULE__{}
     |> cast(attrs, @create_required_fields ++ [:comment_id])
@@ -27,13 +34,13 @@ defmodule Blog.Content.Comment do
     |> assoc_constraint(:post)
     |> assoc_constraint(:user)
     |> changeset
+    |> put_reply_flag()
   end
 
   @doc false
   defp changeset(changeset) do
     changeset
     |> validate_length(:message, max: 280)
-    |> put_reply_flag()
   end
 
   defp put_reply_flag(changeset) do
