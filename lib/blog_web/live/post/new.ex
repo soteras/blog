@@ -14,7 +14,7 @@ defmodule BlogWeb.PostLive.New do
 
     socket =
       socket
-      |> assign(user_id: assigns.user_id)
+      |> assign(user: assigns.user)
       |> assign(changeset: changeset)
 
     {:ok, socket}
@@ -32,7 +32,7 @@ defmodule BlogWeb.PostLive.New do
   def handle_event("save", %{"post" => post_params}, socket) do
     post_params =
       post_params
-      |> Map.put("user_id", socket.assigns.user_id)
+      |> Map.put("user_id", socket.assigns.user.id)
 
     case Contents.create_post(post_params) do
       {:ok, _} ->

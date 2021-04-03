@@ -9,7 +9,7 @@ defmodule BlogWeb.PostLive.Show do
   def mount(%{"id" => id}, %{"current_user" => user}, socket) do
     socket =
       socket
-      |> assign(user_id: user.id)
+      |> assign(user: user)
       |> fetch_post(id)
 
     {:ok, socket}
