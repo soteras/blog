@@ -142,4 +142,26 @@ defmodule Blog.Content.ContentsTest do
       assert user_id == user.id
     end
   end
+
+  describe "remove_like/2" do
+    test "removes like when like exist" do
+      user = insert(:user)
+      comment = insert(:comment)
+      insert(:like, user: user, comment: comment)
+
+      {:ok, %Like{comment_id: comment_id, user_id: user_id}} = Contents.remove_like(comment, user)
+
+      assert comment_id == comment.id
+      assert user_id == user.id
+    end
+
+    test "returns an error when like not exist" do
+      user = insert(:user)
+      comment = insert(:comment)
+
+      {:error, error} = Contents.remove_like(comment, user)
+
+      assert error == :like_not_found
+    end
+  end
 end

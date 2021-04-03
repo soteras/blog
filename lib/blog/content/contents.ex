@@ -58,4 +58,18 @@ defmodule Blog.Content.Contents do
     |> Like.changeset()
     |> Repo.insert()
   end
+
+  @spec remove_like(Comment.t(), User.t()) :: {:ok, Like.t()} | {:error, Changeset.t()}
+  def remove_like(comment, user) do
+    with like = %Like{} <- Repo.get_by(Like, comment_id: comment.id, user_id: user.id),
+         {:ok, _} <- Repo.delete(like) do
+      {:ok, like}
+    else
+      nil ->
+        {:error, :like_not_found}
+
+      {:error, error} ->
+        {:error, error}
+    end
+  end
 end
