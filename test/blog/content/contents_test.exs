@@ -164,4 +164,21 @@ defmodule Blog.Content.ContentsTest do
       assert error == :like_not_found
     end
   end
+
+  describe "like_exists?/2" do
+    test "returns true when like exist" do
+      user = insert(:user)
+      comment = insert(:comment)
+      insert(:like, user: user, comment: comment)
+
+      assert Contents.like_exists?(comment, user)
+    end
+
+    test "returns false when like not exist" do
+      user = insert(:user)
+      comment = insert(:comment)
+
+      refute Contents.like_exists?(comment, user)
+    end
+  end
 end

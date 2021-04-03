@@ -50,6 +50,12 @@ defmodule Blog.Content.Contents do
     |> Repo.update()
   end
 
+  @spec like_exists?(Comment.t(), User.t()) :: boolean
+  def like_exists?(comment, user) do
+    Queries.exists_query(comment.id, user.id)
+    |> Repo.exists?()
+  end
+
   @spec add_like(Comment.t(), User.t()) :: {:ok, Like.t()} | {:error, Changeset.t()}
   def add_like(comment, user) do
     %{}
