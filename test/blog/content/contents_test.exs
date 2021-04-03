@@ -4,6 +4,7 @@ defmodule Blog.Content.ContentsTest do
   alias Blog.Content.Contents
   alias Blog.Content.Comment
   alias Blog.Content.Post
+  alias Blog.Content.Like
 
   describe "create_post/1" do
     test "with valid attrs creates a new post" do
@@ -127,6 +128,18 @@ defmodule Blog.Content.ContentsTest do
       {:error, %Ecto.Changeset{valid?: valid}} = Contents.update_comment(comment, %{message: ""})
 
       refute valid
+    end
+  end
+
+  describe "add_like/2" do
+    test "adds a like in a comment" do
+      comment = insert(:comment)
+      user = insert(:user)
+
+      {:ok, %Like{comment_id: comment_id, user_id: user_id}} = Contents.add_like(comment, user)
+
+      assert comment_id == comment.id
+      assert user_id == user.id
     end
   end
 end
