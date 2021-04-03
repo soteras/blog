@@ -16,4 +16,8 @@ defmodule Blog.Content.Queries do
   def exists_query(comment_id, user_id) do
     from l in Like, where: l.comment_id == ^comment_id and l.user_id == ^user_id
   end
+
+  def count_likes(comment_id) do
+    from l in Like, where: l.comment_id == ^comment_id, select: count(l.id)
+  end
 end

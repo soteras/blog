@@ -181,4 +181,24 @@ defmodule Blog.Content.ContentsTest do
       refute Contents.like_exists?(comment, user)
     end
   end
+
+  describe "count_likes/1" do
+    test "returns a possitive integer when has likes" do
+      comment = insert(:comment)
+      insert(:like, comment: comment)
+      insert(:like, comment: comment)
+
+      count = Contents.count_likes(comment)
+
+      assert count == 2
+    end
+
+    test "returns 0 when has no likes" do
+      comment = insert(:comment)
+
+      count = Contents.count_likes(comment)
+
+      assert count == 0
+    end
+  end
 end

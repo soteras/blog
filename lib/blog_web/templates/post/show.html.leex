@@ -5,3 +5,5 @@
 <%= for comment <- @post.comments do %>
   <%= live_component @socket, BlogWeb.CommentLive.Index, comment: comment, id: comment.id, user: @user, post: @post %>
 <% end %>
+
+<%= button("Home", to: "/", method: :get) %>

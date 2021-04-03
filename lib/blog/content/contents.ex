@@ -50,6 +50,14 @@ defmodule Blog.Content.Contents do
     |> Repo.update()
   end
 
+  @spec count_likes(Comment.t()) :: integer
+  def count_likes(comment) do
+    comment
+    |> Map.get(:id)
+    |> Queries.count_likes()
+    |> Repo.one()
+  end
+
   @spec like_exists?(Comment.t(), User.t()) :: boolean
   def like_exists?(comment, user) do
     Queries.exists_query(comment.id, user.id)
