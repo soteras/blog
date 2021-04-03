@@ -1,4 +1,6 @@
 <ul>
+	<button disabled><%= @comment.user.name %></button>
+
 	<%= if @belongs_to_user do %>
 		<button><%= @comment.message %></button>
 	<% else %>

@@ -6,7 +6,7 @@ defmodule BlogWeb.CommentLive.Index do
   def render(assigns), do: BlogWeb.CommentView.render("index.html", assigns)
 
   def update(%{comment: comment, user_id: user_id}, socket) do
-    comment = Repo.preload(comment, [:post, replies: :replies])
+    comment = Repo.preload(comment, [:user, replies: :replies])
 
     socket =
       socket
