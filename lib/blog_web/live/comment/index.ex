@@ -12,6 +12,7 @@ defmodule BlogWeb.CommentLive.Index do
     comment = Repo.preload(comment, [:user, replies: :replies])
 
     like_exists? = Contents.like_exists?(comment, user)
+    likes = Contents.count_likes(comment)
 
     socket =
       socket
@@ -21,6 +22,7 @@ defmodule BlogWeb.CommentLive.Index do
       |> assign(belongs_to_user: comment.user_id == user.id)
       |> assign(user: user)
       |> assign(post: post)
+      |> assign(likes: likes)
       |> assign(liked: like_exists?)
 
     {:ok, socket}

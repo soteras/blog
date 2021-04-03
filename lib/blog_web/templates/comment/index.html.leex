@@ -9,11 +9,13 @@
 
   <button phx-click="add_reply" phx-target="<%= @myself %>">Reply</button>
 
-  <%= unless @belongs_to_user do %>
+  <%= if @belongs_to_user do %>
+    <button disabled>Like (<%= @likes %>)</button>
+  <% else %>
     <%= if @liked do %>
-      <button phx-click="remove_like" phx-target="<%= @myself %>">Dislike</button>
+      <button phx-click="remove_like" phx-target="<%= @myself %>">Dislike (<%= @likes %>)</button>
     <% else %>
-      <button phx-click="add_like" phx-target="<%= @myself %>">Like</button>
+      <button phx-click="add_like" phx-target="<%= @myself %>">Like (<%= @likes %>)</button>
     <% end %>
   <% end %>
 
